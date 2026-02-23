@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Ananda Sai Dhyana Mandapam | Chennai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --saffron: #FF6B35;
+            --gold: #FFD700;
+            --deep-orange: #E65100;
+            --cream: #FFF8E7;
+            --dark-text: #3E2723;
+            --white: #ffffff;
+            --whatsapp-green: #25D366;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Lato', sans-serif; background-color: var(--cream); color: var(--dark-text); line-height: 1.6; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Cinzel', serif; color: var(--deep-orange); }
+
+        /* LANGUAGE TOGGLE */
+        .lang-switch { position: fixed; top: 80px; right: 20px; z-index: 2000; background: var(--white); border: 2px solid var(--saffron); border-radius: 50px; padding: 5px; display: flex; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .lang-btn { padding: 5px 15px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: var(--transition); border: none; background: transparent; }
+        .lang-btn.active { background: var(--saffron); color: white; }
+
+        /* ANIMATIONS */
+        @keyframes glow { 0%,100%{ filter: drop-shadow(0 0 5px var(--gold)); } 50%{ filter: drop-shadow(0 0 22px var(--saffron)); } }
+        @keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
+        @keyframes petalFall { 0%{ transform:translateY(-10vh) rotate(0deg); opacity:0; } 10%{ opacity:.8; } 100%{ transform:translateY(100vh) rotate(360deg); opacity:0; } }
+        @keyframes fadeInUp { from{ opacity:0; transform:translateY(28px); } to{ opacity:1; transform:translateY(0); } }
+        @keyframes waPulse { 0%,100%{ box-shadow: 0 0 0 0 rgba(37,211,102,0.5); } 70%{ box-shadow: 0 0 0 14px rgba(37,211,102,0); } }
+
+        /* PETALS */
+        .petals-container { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
+        .petal { position:absolute; background:#ffb7c5; border-radius:150% 0 150% 0; width:12px; height:12px; opacity:.7; animation: petalFall 10s linear infinite; }
+
+        /* HEADER */
+        header { background: rgba(255,248,231,0.97); padding: 1rem 4%; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .logo-text { font-size: 1rem; font-weight: 700; color: var(--deep-orange); text-transform: uppercase; font-family: 'Cinzel'; }
+        nav ul { display: flex; list-style: none; gap: 6px; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: var(--dark-text); font-weight: 700; font-size: 0.72rem; text-transform: uppercase; transition: var(--transition); padding: 5px 8px; border-radius: 5px; }
+        nav a:hover { color: var(--saffron); background: rgba(255,107,53,0.08); }
+        .mobile-menu-btn { display: none; font-size: 1.5rem; cursor: pointer; color: var(--deep-orange); }
+
+        /* HERO */
+        .hero { min-height: 90vh; background: linear-gradient(rgba(0,0,0,0.58),rgba(0,0,0,0.58)), url('images/banner.jpg') center/cover no-repeat; background-color: #7B3F00; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 110px 20px 60px; color: var(--white); position: relative; }
+
+      
+        .hero-upload-btn:hover { background: rgba(255,215,0,0.3); border-color: var(--gold); color: var(--gold); transform: scale(1.04); }
+        .hero-upload-btn i { font-size: 1rem; }
+        #heroFileInput { display: none; }
+        /* Upload success toast */
+        .upload-toast {
+            position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+            background: #333; color: white;
+            padding: 10px 24px; border-radius: 30px;
+            font-size: 0.85rem; font-weight: 600;
+            z-index: 9998; opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .upload-toast.show { opacity: 1; }
+        .om-symbol { font-size: 6rem; color: var(--gold); animation: glow 3s ease-in-out infinite; margin-bottom: 20px; }
+        .hero h1 { font-size: 2.8rem; color: var(--gold); text-shadow: 2px 2px 10px rgba(0,0,0,0.5); margin-bottom: 8px; }
+        .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
+        .tagline { font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--saffron); background: rgba(0,0,0,0.4); padding: 10px 30px; border-radius: 50px; border: 1px solid var(--gold); margin-top: 18px; }
+
+        /* SECTIONS */
+        section { padding: 65px 10%; position: relative; z-index: 2; }
+        .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 40px; }
+        .section-title::after { content: '🕉'; display: block; font-size: 1.2rem; color: var(--saffron); margin-top: 5px; }
+
+        /* ABOUT */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .history-img-wrap { border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.15); min-height: 320px; background: linear-gradient(135deg,#FCE4EC,#FFF3E0); display: flex; align-items: center; justify-content: center; }
+        .history-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+        .img-fallback { display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px; color:var(--deep-orange); gap:10px; }
+        .img-fallback i { font-size:3.5rem; opacity:.4; }
+        .img-fallback p { font-size:0.8rem; color:#999; line-height:1.6; }
+        .img-fallback code { background:rgba(0,0,0,0.06); padding:2px 6px; border-radius:4px; font-size:0.78rem; }
+
+        /* TIMINGS */
+        .timing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 16px; }
+        .time-card { background: var(--white); padding: 25px 20px; border-radius: 16px; text-align: center; box-shadow: 0 5px 16px rgba(0,0,0,0.06); border-bottom: 4px solid var(--gold); transition: var(--transition); }
+        .time-card:hover { transform: translateY(-5px); border-bottom-color: var(--saffron); }
+        .time-card i { font-size: 1.8rem; color: var(--saffron); margin-bottom: 10px; }
+
+        /* FESTIVALS */
+        .festivals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 20px; }
+        .festival-card { background: var(--white); border-radius: 18px; padding: 28px 20px; text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,0.07); border-top: 5px solid var(--gold); transition: var(--transition); animation: fadeInUp 0.5s ease both; }
+        .festival-card:hover { transform: translateY(-7px); box-shadow: 0 14px 32px rgba(230,81,0,0.14); border-top-color: var(--saffron); }
+        .festival-icon { font-size: 2.6rem; margin-bottom: 12px; }
+        .festival-card h3 { font-size: 1rem; color: var(--deep-orange); margin-bottom: 6px; font-family: 'Cinzel'; }
+        .festival-card p { font-size: 0.82rem; color: #666; line-height: 1.5; }
+        .festival-date { display: inline-block; background: linear-gradient(90deg, var(--saffron), var(--gold)); color: white; font-size: 0.72rem; font-weight: 700; padding: 3px 12px; border-radius: 20px; margin-top: 10px; }
+
+        /* SERVICES */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap: 22px; }
+        .service-card { background: linear-gradient(135deg,#FFFDE7,#FFF8E1); border: 2px solid #FFE082; border-radius: 18px; padding: 30px 22px; text-align: center; transition: var(--transition); box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+        .service-card:hover { transform: translateY(-5px); border-color: var(--saffron); box-shadow: 0 12px 28px rgba(255,107,53,0.13); }
+        .service-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--saffron), var(--deep-orange)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.6rem; color: white; box-shadow: 0 4px 12px rgba(230,81,0,0.3); }
+        .service-card h3 { font-size: 1.05rem; color: var(--deep-orange); margin-bottom: 8px; font-family: 'Cinzel'; }
+        .service-card p { font-size: 0.85rem; color: #555; line-height: 1.6; }
+        .service-badge { display: inline-block; background: #E8F5E9; color: #2E7D32; font-size: 0.72rem; font-weight: 700; padding: 3px 12px; border-radius: 20px; margin-top: 10px; border: 1px solid #A5D6A7; }
+        .services-quote { text-align: center; margin-top: 35px; padding: 25px 40px; background: linear-gradient(135deg,rgba(255,107,53,0.07),rgba(255,215,0,0.1)); border-radius: 16px; border-left: 5px solid var(--gold); font-family: 'Cinzel'; font-size: 1.05rem; color: var(--deep-orange); font-style: italic; }
+
+        /* GALLERY */
+        .gallery-info { background: #E3F2FD; border: 1px dashed #1976D2; border-radius: 10px; padding: 12px 20px; margin-bottom: 22px; font-size: 0.83rem; color: #1565C0; text-align: center; line-height: 1.8; }
+        .gallery-info code { background: #BBDEFB; padding: 2px 7px; border-radius: 4px; font-size: 0.78rem; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 15px; }
+        .gallery-item { height: 220px; overflow: hidden; border-radius: 14px; cursor: pointer; position: relative; background: linear-gradient(135deg,#FCE4EC,#FFF3E0); box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: var(--transition); }
+        .gallery-item:hover { transform: scale(1.02); box-shadow: 0 10px 24px rgba(0,0,0,0.14); }
+        .gallery-item img { width:100%; height:100%; object-fit:cover; transition: var(--transition); }
+        .gallery-item:hover img { transform: scale(1.08); }
+        .img-label { position:absolute; bottom:0; left:0; right:0; background: linear-gradient(transparent,rgba(0,0,0,0.6)); color:white; font-size:0.8rem; padding:20px 10px 8px; opacity:0; transition: var(--transition); text-align:center; }
+        .gallery-item:hover .img-label { opacity:1; }
+        .gallery-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:var(--saffron); font-size:0.75rem; text-align:center; padding:12px; gap:6px; }
+        .gallery-placeholder i { font-size:2.2rem; opacity:.4; }
+
+        /* WHATSAPP FLOATING BUTTON */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            background: var(--whatsapp-green);
+            color: white;
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            font-size: 32px;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+            z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none;
+            animation: float 3s ease-in-out infinite, waPulse 2.5s infinite;
+            transition: var(--transition);
+        }
+        .whatsapp-float:hover { transform: scale(1.12) translateY(-4px); background: #1ebe58; }
+        .whatsapp-float::before {
+            content: "Chat on WhatsApp";
+            position: absolute; right: 74px;
+            background: #333; color: #fff;
+            font-size: 0.75rem; padding: 5px 12px;
+            border-radius: 20px; white-space: nowrap;
+            opacity: 0; transition: var(--transition); pointer-events: none;
+        }
+        .whatsapp-float:hover::before { opacity: 1; }
+
+        /* REACH US */
+        .reach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+        .dist-list { list-style: none; }
+        .dist-list li { padding: 12px 14px; background: white; margin-bottom: 9px; border-radius: 10px; display: flex; justify-content: space-between; border-left: 5px solid var(--saffron); font-size: 0.9rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .dist-list li span:last-child { font-weight: 700; color: var(--deep-orange); }
+
+        /* GOOGLE MAP */
+        .map-wrapper { border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.13); border: 4px solid var(--gold); }
+        .map-wrapper iframe { width:100%; height:380px; border:0; display:block; }
+        .map-actions { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+        .map-btn { display: flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: var(--transition); }
+        .map-btn-google { background: #4285F4; color: white; }
+        .map-btn-google:hover { background: #1a73e8; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(66,133,244,0.4); }
+        .map-btn-waze { background: #00B5F5; color: white; }
+        .map-btn-waze:hover { background: #009fd9; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,181,245,0.4); }
+        .reach-info-box { background: white; border-radius: 14px; padding: 20px; margin-top: 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); border-top: 3px solid var(--saffron); }
+        .reach-info-box p { font-size: 0.88rem; color: #555; margin-bottom: 8px; }
+        .reach-info-box p i { color: var(--saffron); margin-right: 7px; width: 16px; }
+
+        /* CONTACT */
+        .contact-box { background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); max-width: 600px; margin: 0 auto; text-align: center; }
+        .contact-box p { margin-bottom: 12px; font-size: 1rem; }
+        .contact-box i { color: var(--saffron); margin-right: 8px; }
+        .contact-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 0.9rem; margin: 6px; transition: var(--transition); }
+        .btn-call { background: var(--saffron); color: white; }
+        .btn-call:hover { background: var(--deep-orange); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(255,107,53,0.4); }
+        .btn-wa { background: var(--whatsapp-green); color: white; }
+        .btn-wa:hover { background: #1ebe58; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(37,211,102,0.4); }
+        .btn-map { background: #4285F4; color: white; }
+        .btn-map:hover { background: #1a73e8; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(66,133,244,0.4); }
+
+        /* LIGHTBOX */
+        #lightbox { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.93); z-index:10000; display:none; align-items:center; justify-content:center; flex-direction:column; }
+        #lightbox img { max-width:90%; max-height:80vh; border:3px solid var(--gold); border-radius:8px; }
+        #lightbox-close { position:absolute; top:20px; right:28px; color:white; font-size:2.5rem; cursor:pointer; line-height:1; transition: var(--transition); }
+        #lightbox-close:hover { color: var(--gold); transform: scale(1.2); }
+
+        /* FOOTER */
+        footer { background: #2D1B18; color: var(--cream); text-align: center; padding: 35px 20px; }
+        footer h3 { font-size: 1.6rem; margin-bottom: 8px; color: var(--gold); }
+        footer p { font-size: 0.85rem; opacity: 0.7; }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .about-grid, .reach-grid { grid-template-columns: 1fr; }
+            nav ul { display: none; }
+            .mobile-menu-btn { display: block; }
+            .nav-active { display: flex !important; flex-direction: column; position: absolute; top: 65px; left: 0; width: 100%; background: var(--cream); padding: 20px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+            .lang-switch { top: auto; bottom: 110px; right: 15px; }
+            .hero h1 { font-size: 1.9rem; }
+            section { padding: 50px 6%; }
+            .map-actions { justify-content: center; }
+        }
+        @media (max-width: 600px) {
+            .festivals-grid, .services-grid { grid-template-columns: 1fr 1fr; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="petals-container" id="petals"></div>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-switch">
+    <button class="lang-btn active" id="btn-en" onclick="setLanguage('en')">English</button>
+    <button class="lang-btn" id="btn-ta" onclick="setLanguage('ta')">தமிழ்</button>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     WHATSAPP FLOATING BUTTON
+     Change the number in the href if needed: wa.me/91XXXXXXXXXX
+════════════════════════════════════════════════════════════ -->
+<a href="https://wa.me/919840219388?text=Jai%20Sai%20Ram%20%F0%9F%99%8F%20I%20would%20like%20to%20know%20more%20about%20Sri%20Ananda%20Sai%20Dhyana%20Mandapam."
+   class="whatsapp-float" target="_blank" rel="noopener" title="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- HEADER -->
+<header>
+    <div class="logo-text" data-key="temple-name-nav">Sri Ananda Sai</div>
+    <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+    <nav>
+        <ul id="nav-links">
+            <li><a href="#home"      data-key="nav-home">Home</a></li>
+            <li><a href="#about"     data-key="nav-about">History</a></li>
+            <li><a href="#timings"   data-key="nav-timings">Timings</a></li>
+            <li><a href="#festivals" data-key="nav-festivals">Festivals</a></li>
+            <li><a href="#services"  data-key="nav-services">Services</a></li>
+            <li><a href="#gallery"   data-key="nav-gallery">Gallery</a></li>
+            <li><a href="#reach"     data-key="nav-reach">Reach Us</a></li>
+            <li><a href="#contact"   data-key="nav-contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="om-symbol">🕉</div>
+    <h1 data-key="temple-name">Sri Ananda Sai Dhyana Mandapam</h1>
+    <p class="hero-sub" data-key="temple-loc">Poonthandalam, Chennai – 600069</p>
+    <div class="tagline" data-key="tagline">Sabka Malik Ek</div>
+
+ </section>
+
+<!-- ABOUT / HISTORY -->
+<section id="about">
+    <h2 class="section-title" data-key="nav-about">About The Temple</h2>
+    <div class="about-grid">
+        <div>
+            <p data-key="about-p1" style="margin-bottom:14px;">
+                Founded by <strong>N.V. Ramanan</strong>, the story began in 1997 when a palm reader revealed he would build a temple. In 1998, Sai Baba appeared in his dream saying <em>"I will come in a new form — construct a temple for me."</em>
+            </p>
+            <p data-key="about-p2" style="margin-bottom:18px;">
+                Through divine grace, <strong>Mr. Leo Muthu</strong> donated 33 acres of land. Dubai-based devotee Mrs. Surya was guided in a dream to Poonthandalam, where she commissioned Asia's unique Sai pratima.
+            </p>
+            <div style="background:var(--saffron); color:white; padding:20px 24px; border-radius:15px;">
+                <h3 style="color:white; margin-bottom:8px;" data-key="unique-fact-title">✨ The 6.5ft Miracle</h3>
+                <p data-key="unique-fact-desc">Asia's only fibre glass Sai Baba statue by T.P.R. Ganesh — you can feel the nerves as in a real human being. Installed on Gokulashtami, 2006.</p>
+            </div>
+        </div>
+
+        <!-- 👉 HISTORY PHOTO: Save your image as images/history.jpg -->
+        <div class="history-img-wrap">
+            <img src="images/about.jpg" alt="Temple Photo"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="img-fallback">
+                <i class="fas fa-image"></i>
+                <strong style="color:var(--deep-orange);">Add Your Temple Photo</strong>
+                <p>Save your photo as<br><code>images/history.jpg</code><br>in the same folder.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TIMINGS -->
+<section id="timings" style="background:#fcf1d8;">
+    <h2 class="section-title" data-key="nav-timings">Daily Timings</h2>
+    <div class="timing-grid">
+        <div class="time-card"><i class="fas fa-door-open"></i><h3 data-key="t-darshan">Darshan</h3><p>5:00 AM – 10:00 PM</p></div>
+        <div class="time-card"><i class="fas fa-sun"></i><h3 data-key="t-kakad">Kakad Aarti</h3><p>5:00 AM</p></div>
+        <div class="time-card"><i class="fas fa-om"></i><h3 data-key="t-madhyan">Madhyana Aarti</h3><p>12:00 PM</p></div>
+        <div class="time-card"><i class="fas fa-cloud-sun"></i><h3 data-key="t-dhoop">Dhoop Aarti</h3><p>At Sunset</p></div>
+        <div class="time-card"><i class="fas fa-moon"></i><h3 data-key="t-shej">Shej Aarti</h3><p>10:00 PM</p></div>
+    </div>
+</section>
+
+<!-- ════ FESTIVALS (NEW) ════════════════════════════════════════════ -->
+<section id="festivals">
+    <h2 class="section-title" data-key="nav-festivals">Festivals & Celebrations</h2>
+    <div class="festivals-grid">
+        <div class="festival-card" style="animation-delay:.05s">
+            <div class="festival-icon">🪔</div>
+            <h3 data-key="f1-title">Sai Punyathithi</h3>
+            <p data-key="f1-desc">Annual commemoration of Sai Baba's Mahasamadhi with special prayers and bhajans.</p>
+            <span class="festival-date">Every Year</span>
+        </div>
+        <div class="festival-card" style="animation-delay:.1s">
+            <div class="festival-icon">🌕</div>
+            <h3 data-key="f2-title">Guru Purnima</h3>
+            <p data-key="f2-desc">Celebrating the divine Guru with devotional gatherings and Annadhanam seva.</p>
+            <span class="festival-date">Full Moon Day</span>
+        </div>
+        <div class="festival-card" style="animation-delay:.15s">
+            <div class="festival-icon">🌸</div>
+            <h3 data-key="f3-title">Sri Rama Navami</h3>
+            <p data-key="f3-desc">Birth anniversary of Lord Rama — celebrated as a major festival at the Mandapam.</p>
+            <span class="festival-date">Chaitra Month</span>
+        </div>
+        <div class="festival-card" style="animation-delay:.2s">
+            <div class="festival-icon">🏛️</div>
+            <h3 data-key="f4-title">Temple Anniversary</h3>
+            <p data-key="f4-desc">Founding anniversary of Sri Ananda Sai Dhyana Mandapam with grand celebrations.</p>
+            <span class="festival-date">April 20th</span>
+        </div>
+        <div class="festival-card" style="animation-delay:.25s">
+            <div class="festival-icon">🌺</div>
+            <h3 data-key="f5-title">Chitra Purnima</h3>
+            <p data-key="f5-desc">Most auspicious day for Sai and Swarnakarshana Bhairavar — being added as a key festival.</p>
+            <span class="festival-date">Upcoming</span>
+        </div>
+        <div class="festival-card" style="animation-delay:.3s">
+            <div class="festival-icon">⭐</div>
+            <h3 data-key="f6-title">Pradhishta Day</h3>
+            <p data-key="f6-desc">The sacred day Sai appeared to the priest in Poonthandalam — celebrated with special puja.</p>
+            <span class="festival-date">January 26th</span>
+        </div>
+    </div>
+</section>
+
+<!-- ════ SERVICES / SEVA (NEW) ══════════════════════════════════════ -->
+<section id="services" style="background:#fcf1d8;">
+    <h2 class="section-title" data-key="nav-services">Temple Services & Seva</h2>
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-icon"><i class="fas fa-utensils"></i></div>
+            <h3 data-key="s1-title">Annadhanam</h3>
+            <p data-key="s1-desc">Free food distribution for all devotees on every festival day as Sai Baba's divine blessing.</p>
+            <span class="service-badge">Festival Days</span>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><i class="fas fa-praying-hands"></i></div>
+            <h3 data-key="s2-title">Daily Prasad</h3>
+            <p data-key="s2-desc">Sacred prasad shared among devotees after every aarti as Baba's grace and blessings.</p>
+            <span class="service-badge">Every Day</span>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><i class="fas fa-home"></i></div>
+            <h3 data-key="s3-title">Dwarakamai Old Age Home</h3>
+            <p data-key="s3-desc">Planned home for the elderly on 35 cents of donated land — serving in Baba's name.</p>
+            <span class="service-badge">Coming Soon</span>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><i class="fas fa-hands-helping"></i></div>
+            <h3 data-key="s4-title">Social Welfare</h3>
+            <p data-key="s4-desc">Community outreach by Shirdi Shri Sai Shiranjeevi Foundation for the needy.</p>
+            <span class="service-badge">Active</span>
+        </div>
+    </div>
+    <div class="services-quote">
+        "Why do you fear? I am always with you. Whenever you call me with love, I shall be there." — Sai Baba 🙏
+    </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+    <h2 class="section-title" data-key="nav-gallery">Photo Gallery</h2>
+   <!--
+    ════════════════════════════════════════════════════════
+    📁 HOW TO ADD YOUR OWN PHOTOS:
+       1. Create a folder named "images" next to index.html
+       2. Copy your photos into it
+       3. Edit the galleryImages array in the <script> below
+          - Update each "file" with your actual filename
+          - Update each "caption" with a description
+    ════════════════════════════════════════════════════════
+    -->
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+</section>
+
+<!-- ════ REACH US + GOOGLE MAP (NEW) ════════════════════════════════ -->
+<section id="reach" style="background:#fcf1d8;">
+    <h2 class="section-title" data-key="nav-reach">How To Reach Us</h2>
+    <div class="reach-grid">
+        <div>
+            <ul class="dist-list">
+                <li><span data-key="r-tambaram"><i class="fas fa-map-marker-alt" style="color:var(--saffron);margin-right:8px;"></i>From Tambaram (via Kishkinta)</span><span>12 KMs</span></li>
+                <li><span data-key="r-pallavaram"><i class="fas fa-map-marker-alt" style="color:var(--saffron);margin-right:8px;"></i>From Pallavaram (via Thiruneermalai)</span><span>12 KMs</span></li>
+                <li><span data-key="r-kundrathur"><i class="fas fa-map-marker-alt" style="color:var(--saffron);margin-right:8px;"></i>From Kundrathur (via Nandambakkam)</span><span>10 KMs</span></li>
+                <li><span data-key="r-sriperambadur"><i class="fas fa-map-marker-alt" style="color:var(--saffron);margin-right:8px;"></i>From Sriperambadur</span><span>12 KMs</span></li>
+            </ul>
+            <div class="reach-info-box">
+                <p><i class="fas fa-landmark"></i><strong data-key="landmark">Landmark:</strong> Behind Sri Sai Ram Engineering College, Poonthandalam</p>
+                <p><i class="fas fa-bus"></i>Nearest bus stop: <strong>Kundrathur Bus Stand</strong> — auto-rickshaw 30–45 min</p>
+                <p><i class="fas fa-clock"></i>Open every day: <strong>5:00 AM – 10:00 PM</strong></p>
+            </div>
+            <!-- Open in Maps buttons -->
+            <div class="map-actions">
+                <a href="https://www.google.com/maps/dir/?api=1&destination=12.9630288,80.0530621&destination_place_id=ChIJD_iKd9_0Uiol&travelmode=driving"
+                   class="map-btn map-btn-google" target="_blank" rel="noopener">
+                    <i class="fab fa-google"></i> Google Maps
+                </a>
+                <a href="https://waze.com/ul?ll=12.9630288,80.0530621&navigate=yes&zoom=17"
+                   class="map-btn map-btn-waze" target="_blank" rel="noopener">
+                    <i class="fas fa-route"></i> Waze
+                </a>
+            </div>
+        </div>
+
+        <!-- ════ EMBEDDED GOOGLE MAP ════ -->
+        <div>
+            <div class="map-wrapper">
+                <!--
+                ════════════════════════════════════════════════════
+                ✅ EXACT LOCATION: Sri Ananda Sai Dhyana Mandapam
+                   Lat: 12.9630288 | Lng: 80.0530621
+                   Source: Google Maps verified listing
+                ════════════════════════════════════════════════════
+                -->
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.5488!2d80.0504872!3d12.9630288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52f4df788af80d%3A0x6c61f2b292414039!2sSri%20Ananda%20Sai%20Dhyana%20Mandapam!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Sri Ananda Sai Dhyana Mandapam — Poonthandalam, Chennai">
+                </iframe>
+            </div>
+            <p style="text-align:center; margin-top:10px; font-size:0.78rem; color:#888;">
+                📍 No. 4 & 11, Saibaba Nagar, Poonthandalam, Chennai – 600069
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <h2 class="section-title" data-key="nav-contact">Contact Us</h2>
+    <div class="contact-box">
+        <p><i class="fas fa-map-marker-alt"></i><span data-key="address">No. 4 & 11, Saibaba Nagar, Poonthandalam, Nandampakkam Post, Chennai – 600069</span></p>
+        <p><i class="fas fa-phone"></i>044-27178156 &nbsp;|&nbsp; 044-65468816</p>
+        <p><i class="fas fa-mobile-alt"></i>9840219388 (Mobile)</p>
+        <br>
+        <a href="tel:+919840219388" class="contact-btn btn-call">
+            <i class="fas fa-phone"></i> Call Now
+        </a>
+        <a href="https://wa.me/919840219388?text=Jai%20Sai%20Ram%20%F0%9F%99%8F%20I%20would%20like%20to%20enquire%20about%20the%20temple."
+           class="contact-btn btn-wa" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i> WhatsApp Us
+        </a>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=12.9630288,80.0530621&travelmode=driving"
+           class="contact-btn btn-map" target="_blank" rel="noopener">
+            <i class="fas fa-map-marked-alt"></i> Get Directions
+        </a>
+    </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="if(event.target===this)closeLightbox()">
+    <span id="lightbox-close" onclick="closeLightbox()">✕</span>
+    <img id="lb-img" src="" alt="Temple Photo">
+</div>
+
+<footer>
+    <h3 data-key="footer-sai">Jai Sai Ram 🙏</h3>
+    <p>&copy; 2024 Sri Ananda Sai Dhyana Mandapam, Poonthandalam, Chennai</p>
+    <p style="margin-top:6px; font-size:0.75rem; opacity:.5;">Shirdi Shri Sai Shiranjeevi Foundation</p>
+</footer>
+
+<!-- Upload toast notification -->
+<div class="upload-toast" id="uploadToast">✅ Banner photo updated!</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+//  🖼️ HERO BANNER IMAGE UPLOAD
+//  Reads the selected image from your device and applies it
+//  instantly as the banner background. No upload to server needed.
+// ══════════════════════════════════════════════════════════════════
+function setHeroBg(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const hero = document.getElementById('home');
+        // Apply the uploaded image as the hero background
+        hero.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('${e.target.result}')`;
+        hero.style.backgroundSize = 'cover';
+        hero.style.backgroundPosition = 'center';
+        hero.style.backgroundRepeat = 'no-repeat';
+        // Show success toast
+        const toast = document.getElementById('uploadToast');
+        toast.textContent = `✅ Banner updated: ${file.name}`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    };
+    reader.readAsDataURL(file);
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  📁 YOUR GALLERY PHOTOS — EDIT THIS LIST
+//  Place all your photos inside a folder called "images"
+//  next to this index.html file, then update filenames below.
+//
+//  Example: if your photo is named "sai_statue.jpg" just write:
+//  { file: "images/sai_statue.jpg", caption: "Sai Baba Statue" }
+// ══════════════════════════════════════════════════════════════════
+const galleryImages = [
+    { file: "images/photo1.jpg",  caption: "Temple Entrance" },
+    { file: "images/photo2.jpg",  caption: "Sai Baba Pratima" },
+    { file: "images/photo3.jpg",  caption: "Morning Aarti" },
+    { file: "images/photo4.jpg",  caption: "Temple Hall" },
+    { file: "images/photo5.jpg",  caption: "Festival Celebration" },
+    { file: "images/photo6.jpg",  caption: "Devotees Gathering" },
+    { file: "images/photo7.jpg",  caption: "Temple Grounds" },
+    { file: "images/photo8.jpg",  caption: "Annadhanam Seva" },
+    { file: "images/photo9.jpg",  caption: "Guru Purnima" },
+    { file: "images/photo10.jpg", caption: "Sacred Moments" },
+    { file: "images/photo11.jpg", caption: "Sai Baba Darshan" },
+    { file: "images/photo12.jpg", caption: "Temple Decoration" },
+];
+
+// Build gallery
+const grid = document.getElementById("galleryGrid");
+galleryImages.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "gallery-item";
+    div.innerHTML = `
+        <img src="${item.file}" alt="${item.caption}"
+             onerror="this.parentElement.innerHTML='<div class=\\'gallery-placeholder\\'><i class=\\'fas fa-image\\'></i><span style=\\'font-weight:600;\\'>${item.caption}</span><small style=\\'opacity:.6;\\'>${item.file}</small></div>'">
+        <div class="img-label">${item.caption}</div>`;
+    div.onclick = () => openLightbox(item.file, item.caption);
+    grid.appendChild(div);
+});
+
+function openLightbox(src) {
+    document.getElementById("lb-img").src = src;
+    document.getElementById("lightbox").style.display = "flex";
+    document.body.style.overflow = "hidden";
+}
+function closeLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+    document.body.style.overflow = "";
+}
+document.addEventListener("keydown", e => { if(e.key === "Escape") closeLightbox(); });
+
+// Mobile menu
+function toggleMenu() { document.getElementById("nav-links").classList.toggle("nav-active"); }
+
+// Language translations
+const translations = {
+    en: {
+        "nav-home":"Home","nav-about":"History","nav-timings":"Timings",
+        "nav-festivals":"Festivals","nav-services":"Services","nav-gallery":"Gallery",
+        "nav-reach":"Reach Us","nav-contact":"Contact",
+        "temple-name":"Sri Ananda Sai Dhyana Mandapam","temple-name-nav":"Sri Ananda Sai",
+        "temple-loc":"Poonthandalam, Chennai – 600069","tagline":"Sabka Malik Ek",
+        "about-p1":"Founded by N.V. Ramanan, the story began in 1997 when a palm reader revealed he would build a temple. In 1998, Sai Baba appeared in his dream: \"I will come in a new form — construct a temple for me.\"",
+        "about-p2":"Through divine grace, Mr. Leo Muthu donated 33 acres of land. Dubai-based devotee Mrs. Surya was guided in a dream to Poonthandalam to commission Asia's unique Sai pratima.",
+        "unique-fact-title":"✨ The 6.5ft Miracle",
+        "unique-fact-desc":"Asia's only fibre glass Sai Baba statue by T.P.R. Ganesh — you can feel the nerves as in a real human being. Installed on Gokulashtami, 2006.",
+        "t-darshan":"Darshan","t-kakad":"Kakad Aarti","t-madhyan":"Madhyana Aarti","t-dhoop":"Dhoop Aarti","t-shej":"Shej Aarti",
+        "f1-title":"Sai Punyathithi","f1-desc":"Annual commemoration of Sai Baba's Mahasamadhi with prayers and bhajans.",
+        "f2-title":"Guru Purnima","f2-desc":"Celebrating the divine Guru with devotional gatherings and Annadhanam.",
+        "f3-title":"Sri Rama Navami","f3-desc":"Birth anniversary of Lord Rama — celebrated as a major festival.",
+        "f4-title":"Temple Anniversary","f4-desc":"Founding anniversary with grand celebrations every April.",
+        "f5-title":"Chitra Purnima","f5-desc":"Most auspicious day for Sai and Swarnakarshana Bhairavar.",
+        "f6-title":"Pradhishta Day","f6-desc":"Day Sai appeared to the priest in Poonthandalam — January 26th.",
+        "s1-title":"Annadhanam","s1-desc":"Free food for all devotees on festival days as Sai's divine blessing.",
+        "s2-title":"Daily Prasad","s2-desc":"Sacred prasad shared after every aarti as Baba's grace.",
+        "s3-title":"Dwarakamai Old Age Home","s3-desc":"Planned home for elderly on 35 cents of donated land.",
+        "s4-title":"Social Welfare","s4-desc":"Community activities by Shirdi Shri Sai Shiranjeevi Foundation.",
+        "r-tambaram":"From Tambaram (via Kishkinta)","r-pallavaram":"From Pallavaram (via Thiruneermalai)",
+        "r-kundrathur":"From Kundrathur (via Nandambakkam)","r-sriperambadur":"From Sriperambadur",
+        "landmark":"Landmark: Behind Sri Sai Ram Engineering College, Poonthandalam",
+        "address":"No. 4 & 11, Saibaba Nagar, Poonthandalam, Nandampakkam Post, Chennai – 600069",
+        "footer-sai":"Jai Sai Ram 🙏"
+    },
+    ta: {
+        "nav-home":"முகப்பு","nav-about":"வரலாறு","nav-timings":"நேரம்",
+        "nav-festivals":"திருவிழாக்கள்","nav-services":"சேவைகள்","nav-gallery":"படங்கள்",
+        "nav-reach":"வழித்தடம்","nav-contact":"தொடர்பு",
+        "temple-name":"ஸ்ரீ ஆனந்த சாய் தியான மண்டபம்","temple-name-nav":"ஸ்ரீ ஆனந்த சாய்",
+        "temple-loc":"பூந்தண்டலம், சென்னை – 600069","tagline":"ஸப்கா மாலிக் ஏக்",
+        "about-p1":"என்.வி. ரமணன் அவர்களால் நிறுவப்பட்டது. 1997ல் சோதிடர் கோயில் கட்டுவார் என்றார். 1998ல் சாய் பாபா கனவில் 'புதிய வடிவில் வருவேன் — கோயில் கட்டு' என்றார்.",
+        "about-p2":"லியோ முத்து அவர்கள் 33 ஏக்கர் நிலம் தானம் செய்தார். துபாயில் உள்ள பக்தை சூர்யா அம்மா கனவில் வழிகாட்டப்பட்டு பூந்தண்டலம் வந்து தனித்துவமான சாய் பிரதிமை உருவாக்கினார்.",
+        "unique-fact-title":"✨ 6.5 அடி அதிசயம்",
+        "unique-fact-desc":"ஆசியாவிலேயே ஒரே ஃபைபர் கிளாஸ் சாய் சிலை — மனித நரம்புகளை உணரக்கூடியது. கோகுலாஷ்டமி 2006 அன்று ஸ்தாபிக்கப்பட்டது.",
+        "t-darshan":"தரிசனம்","t-kakad":"காகட் ஆர்த்தி","t-madhyan":"மத்தியான ஆர்த்தி","t-dhoop":"தூப ஆர்த்தி","t-shej":"ஷேஜ் ஆர்த்தி",
+        "f1-title":"சாய் புண்ணியதிதி","f1-desc":"சாய் பாபாவின் மகாசமாதி தினத்தில் சிறப்பு பூஜை.",
+        "f2-title":"குரு பூர்ணிமா","f2-desc":"தெய்வீக குரு சாய் பாபாவை கொண்டாடும் விழா.",
+        "f3-title":"ஸ்ரீ ராம நவமி","f3-desc":"இராமர் பிறந்தநாளை முக்கிய விழாவாக கொண்டாடுதல்.",
+        "f4-title":"கோயில் ஆண்டுவிழா","f4-desc":"ஏப்ரல் 20 அன்று ஆண்டுவிழா கொண்டாட்டம்.",
+        "f5-title":"சித்ரா பூர்ணிமா","f5-desc":"சாய் மற்றும் பைரவருக்கு புனித நாள்.",
+        "f6-title":"பிரதிஷ்டா தினம்","f6-desc":"ஜனவரி 26 — சாய் பூந்தண்டலத்தில் தோன்றிய நாள்.",
+        "s1-title":"அன்னதானம்","s1-desc":"திருவிழா நாட்களில் அனைத்து பக்தர்களுக்கும் இலவச உணவு.",
+        "s2-title":"தினசரி பிரசாதம்","s2-desc":"ஒவ்வொரு ஆர்த்திக்கும் பிறகு பிரசாதம் வழங்கப்படுகிறது.",
+        "s3-title":"துவாரகாமாய் முதியோர் இல்லம்","s3-desc":"35 சென்ட் நிலத்தில் திட்டமிடப்பட்ட முதியோர் இல்லம்.",
+        "s4-title":"சமூக நலன்","s4-desc":"சாய் சிரஞ்சீவி அறக்கட்டளையின் சமூக சேவைகள்.",
+        "r-tambaram":"தாம்பரத்திலிருந்து","r-pallavaram":"பல்லாவரத்திலிருந்து",
+        "r-kundrathur":"குன்றத்தூரிலிருந்து","r-sriperambadur":"ஸ்ரீபெரும்புதூரிலிருந்து",
+        "landmark":"அடையாளம்: ஸ்ரீ சாய் ராம் பொறியியல் கல்லூரி பின்புறம், பூந்தண்டலம்",
+        "address":"எண். 4 & 11, சாய்பாபா நகர், பூந்தண்டலம், நந்தம்பாக்கம், சென்னை – 600069",
+        "footer-sai":"ஜெய் சாய் ராம் 🙏"
+    }
+};
+
+function setLanguage(lang) {
+    document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (translations[lang][key]) el.innerText = translations[lang][key];
+    });
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-ta').classList.toggle('active', lang === 'ta');
+}
+
+// Petals
+function createPetal() {
+    const p = document.createElement('div');
+    p.classList.add('petal');
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (Math.random() * 5 + 6) + 's';
+    p.style.animationDelay = '-' + Math.random() * 5 + 's';
+    document.getElementById('petals').appendChild(p);
+    setTimeout(() => p.remove(), 12000);
+}
+setInterval(createPetal, 700);
+</script>
+</body>
+</html>
