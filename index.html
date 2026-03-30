@@ -6,7 +6,6 @@
     <title>Sri Ananda Sai Dhyana Mandapam | Chennai</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- No external SDK needed — Formspree works with a simple fetch() call -->
     <style>
         :root {
             --saffron: #FF6B35;
@@ -69,10 +68,19 @@
         .img-fallback code { background:rgba(0,0,0,0.06); padding:2px 6px; border-radius:4px; font-size:0.78rem; }
 
         /* TIMINGS */
-        .timing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 16px; }
-        .time-card { background: var(--white); padding: 25px 20px; border-radius: 16px; text-align: center; box-shadow: 0 5px 16px rgba(0,0,0,0.06); border-bottom: 4px solid var(--gold); transition: var(--transition); }
+        .timings-tabs { display: flex; gap: 12px; justify-content: center; margin-bottom: 28px; flex-wrap: wrap; }
+        .timing-tab { padding: 10px 28px; border-radius: 50px; border: 2px solid var(--saffron); background: transparent; color: var(--deep-orange); font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: var(--transition); font-family: 'Cinzel'; }
+        .timing-tab.active { background: linear-gradient(135deg, var(--saffron), var(--deep-orange)); color: white; border-color: transparent; box-shadow: 0 4px 14px rgba(255,107,53,0.35); }
+        .timing-tab:hover:not(.active) { background: rgba(255,107,53,0.08); }
+        .timing-panel { display: none; }
+        .timing-panel.active { display: block; }
+        .timing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px,1fr)); gap: 16px; }
+        .time-card { background: var(--white); padding: 22px 16px; border-radius: 16px; text-align: center; box-shadow: 0 5px 16px rgba(0,0,0,0.06); border-bottom: 4px solid var(--gold); transition: var(--transition); }
         .time-card:hover { transform: translateY(-5px); border-bottom-color: var(--saffron); }
-        .time-card i { font-size: 1.8rem; color: var(--saffron); margin-bottom: 10px; }
+        .time-card i { font-size: 1.6rem; color: var(--saffron); margin-bottom: 10px; }
+        .time-card h3 { font-size: 0.9rem; margin-bottom: 5px; }
+        .time-card p { font-size: 0.82rem; color: #555; }
+        .timing-note { text-align: center; margin-top: 18px; font-size: 0.82rem; color: #888; font-style: italic; }
 
         /* FESTIVALS */
         .festivals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 20px; }
@@ -99,8 +107,6 @@
         .gallery-item:hover { transform: scale(1.02); box-shadow: 0 10px 24px rgba(0,0,0,0.14); }
         .gallery-item img { width:100%; height:100%; object-fit:cover; transition: var(--transition); }
         .gallery-item:hover img { transform: scale(1.08); }
-        .img-label { position:absolute; bottom:0; left:0; right:0; background: linear-gradient(transparent,rgba(0,0,0,0.6)); color:white; font-size:0.8rem; padding:20px 10px 8px; opacity:0; transition: var(--transition); text-align:center; }
-        .gallery-item:hover .img-label { opacity:1; }
         .gallery-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:var(--saffron); font-size:0.75rem; text-align:center; padding:12px; gap:6px; }
         .gallery-placeholder i { font-size:2.2rem; opacity:.4; }
 
@@ -127,7 +133,7 @@
         .reach-info-box p { font-size: 0.88rem; color: #555; margin-bottom: 8px; }
         .reach-info-box p i { color: var(--saffron); margin-right: 7px; width: 16px; }
 
-        /* CONTACT — individual Call + WA per number */
+        /* CONTACT */
         .contact-box { background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); max-width: 650px; margin: 0 auto; text-align: center; }
         .contact-address { font-size: 0.95rem; color: #555; margin-bottom: 22px; }
         .contact-address i { color: var(--saffron); margin-right: 8px; }
@@ -143,7 +149,7 @@
         .contact-dir-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 0.9rem; background: #4285F4; color: white; transition: var(--transition); margin-top: 6px; }
         .contact-dir-btn:hover { background: #1a73e8; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(66,133,244,0.4); }
 
-        /* APPOINTMENT — ACCORDION */
+        /* APPOINTMENT */
         .appt-card { background: white; border-radius: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); max-width: 700px; margin: 0 auto; border: 2px solid #FFE082; overflow: hidden; }
         .appt-trigger { display: flex; align-items: center; justify-content: space-between; padding: 22px 28px; cursor: pointer; background: linear-gradient(135deg, #FFF8E1, #FFF3CD); transition: var(--transition); user-select: none; }
         .appt-trigger:hover { background: linear-gradient(135deg, #FFE0B2, #FFCC80); }
@@ -162,7 +168,7 @@
         .appt-body-inner { padding: 28px 30px 36px; border-top: 2px solid #FFE082; }
         .appt-sub { font-size: 0.85rem; color: #888; margin-bottom: 24px; text-align: center; }
 
-        /* FORMS shared */
+        /* FORMS */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
         .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-group.full { grid-column: 1 / -1; }
@@ -174,11 +180,6 @@
         .submit-btn { width: 100%; margin-top: 22px; padding: 14px; background: linear-gradient(135deg, var(--saffron), var(--deep-orange)); color: white; border: none; border-radius: 50px; font-size: 1rem; font-weight: 700; font-family: 'Lato'; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 10px; }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,107,53,0.4); }
         .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-        /* FORMSPREE info banner */
-        .setup-banner { background: #E8F5E9; border: 1px solid #A5D6A7; border-radius: 10px; padding: 12px 18px; margin-bottom: 22px; font-size: 0.82rem; color: #2E7D32; text-align: center; line-height: 1.7; }
-        .setup-banner code { background: #C8E6C9; padding: 1px 6px; border-radius: 4px; font-size: 0.78rem; }
-        .setup-banner a { color: var(--deep-orange); font-weight: 700; }
 
         /* FEEDBACK */
         .feedback-card { background: white; border-radius: 24px; padding: 40px 36px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); max-width: 700px; margin: 0 auto; border-top: 6px solid var(--saffron); }
@@ -208,6 +209,44 @@
         #lightbox img { max-width:90%; max-height:80vh; border:3px solid var(--gold); border-radius:8px; }
         #lightbox-close { position:absolute; top:20px; right:28px; color:white; font-size:2.5rem; cursor:pointer; transition: var(--transition); }
         #lightbox-close:hover { color: var(--gold); transform: scale(1.2); }
+
+        /* ANNOUNCEMENT BANNER */
+        .announce-bar { background: linear-gradient(90deg, #7B1E00, var(--deep-orange), #7B1E00); color: white; text-align: center; padding: 12px 20px; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.04em; position: relative; z-index: 3; overflow: hidden; }
+        .announce-bar span { animation: marqueeText 18s linear infinite; display: inline-block; white-space: nowrap; }
+        @keyframes marqueeText { 0%{ transform: translateX(60vw); } 100%{ transform: translateX(-100%); } }
+        .announce-bar i { color: var(--gold); margin: 0 8px; }
+
+        /* UPCOMING EVENTS */
+        .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+        .event-card { background: white; border-radius: 22px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.10); border: 2px solid #FFE082; transition: var(--transition); }
+        .event-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(230,81,0,0.15); }
+        .event-card-header { background: linear-gradient(135deg, var(--saffron), var(--deep-orange)); padding: 22px 24px; color: white; position: relative; overflow: hidden; }
+        .event-card-header::before { content: 'ॐ'; position: absolute; right: 16px; top: 8px; font-size: 5rem; opacity: 0.1; font-family: serif; }
+        .event-card-header h3 { font-family: 'Cinzel'; font-size: 1rem; color: white; margin-bottom: 6px; line-height: 1.4; }
+        .event-card-header .event-tamil { font-size: 0.82rem; color: rgba(255,255,255,0.85); margin-bottom: 10px; line-height: 1.5; }
+        .event-date-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); border-radius: 50px; padding: 5px 14px; font-size: 0.8rem; font-weight: 700; }
+        .event-card-body { padding: 20px 24px 24px; }
+        .event-meta { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+        .event-meta-row { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: #555; }
+        .event-meta-row i { color: var(--saffron); margin-top: 2px; flex-shrink: 0; width: 14px; }
+
+        /* SCHEDULE ACCORDION */
+        .schedule-toggle { width: 100%; background: linear-gradient(135deg, #FFF8E1, #FFF3CD); border: 2px solid #FFE082; border-radius: 10px; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--deep-orange); transition: var(--transition); font-family: 'Lato'; }
+        .schedule-toggle:hover { background: linear-gradient(135deg, #FFE0B2, #FFCC80); }
+        .schedule-toggle i { transition: var(--transition); }
+        .schedule-toggle.open i.chev { transform: rotate(180deg); }
+        .schedule-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .schedule-body.open { max-height: 1200px; }
+        .schedule-day { margin-top: 12px; }
+        .schedule-day-title { font-size: 0.78rem; font-weight: 700; color: white; background: linear-gradient(90deg, var(--saffron), var(--deep-orange)); padding: 5px 12px; border-radius: 6px; margin-bottom: 6px; display: inline-block; }
+        .schedule-row { display: flex; gap: 10px; padding: 5px 0; border-bottom: 1px dashed #EEE; font-size: 0.78rem; }
+        .schedule-row:last-child { border-bottom: none; }
+        .schedule-row .s-time { color: var(--deep-orange); font-weight: 700; min-width: 95px; flex-shrink: 0; }
+        .schedule-row .s-event { color: #555; }
+        .event-bank-box { background: #FFF8E7; border: 1px solid #FFE082; border-radius: 10px; padding: 12px 14px; margin-top: 14px; font-size: 0.78rem; color: #555; line-height: 1.8; }
+        .event-bank-box strong { color: var(--deep-orange); display: block; margin-bottom: 4px; font-size: 0.8rem; }
+        @media (max-width: 800px) { .events-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 700px) { .pdf-grid { grid-template-columns: 1fr !important; } }
 
         /* FOOTER */
         footer { background: #2D1B18; color: var(--cream); text-align: center; padding: 35px 20px; }
@@ -262,6 +301,19 @@
     </div>
 </div>
 
+<!-- ANNOUNCEMENT BANNER -->
+<div class="announce-bar">
+    <span>
+        <i class="fas fa-star"></i> UPCOMING EVENT &nbsp;|&nbsp;
+        🪔 Maha Kumbabishekam — 19, 20 &amp; 21 June 2026 &nbsp;|&nbsp;
+        <i class="fas fa-star"></i> Bheemara Shanti — 20 June 2026 &nbsp;|&nbsp;
+        📞 9840219388 / 9789058088 &nbsp;|&nbsp;
+        <i class="fas fa-star"></i> UPCOMING EVENT &nbsp;|&nbsp;
+        🪔 Maha Kumbabishekam — 19, 20 &amp; 21 June 2026 &nbsp;|&nbsp;
+        <i class="fas fa-star"></i> Bheemara Shanti — 20 June 2026
+    </span>
+</div>
+
 <!-- HEADER -->
 <header>
     <div class="logo-text" data-key="temple-name-nav">Sri Ananda Sai</div>
@@ -270,6 +322,7 @@
         <ul id="nav-links">
             <li><a href="#home"        data-key="nav-home">Home</a></li>
             <li><a href="#about"       data-key="nav-about">History</a></li>
+            <li><a href="#events"      style="color:var(--saffron);">🪔 Events</a></li>
             <li><a href="#timings"     data-key="nav-timings">Timings</a></li>
             <li><a href="#festivals"   data-key="nav-festivals">Festivals</a></li>
             <li><a href="#services"    data-key="nav-services">Services</a></li>
@@ -289,13 +342,98 @@
     <div class="tagline" data-key="tagline">Sabka Malik Ek</div>
 </section>
 
+<!-- UPCOMING EVENTS -->
+<section id="events" style="background:#fcf1d8;">
+    <h2 class="section-title">Upcoming Events</h2>
+    <div class="pdf-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1100px;margin:0 auto;">
+
+        <div style="border-radius:16px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.13);border:3px solid var(--gold);">
+            <embed src="images/SRI SAI INVITATION.pdf" type="application/pdf" width="100%" height="620px"
+                   style="display:block;">
+            <div style="text-align:center;padding:12px;background:white;border-top:2px solid #FFE082;">
+                <a href="images/SRI SAI INVITATION.pdf" download
+                   style="display:inline-flex;align-items:center;gap:7px;padding:8px 20px;background:linear-gradient(135deg,var(--saffron),var(--deep-orange));color:white;border-radius:50px;text-decoration:none;font-weight:700;font-size:0.82rem;">
+                    <i class="fas fa-download"></i> Download Invitation
+                </a>
+            </div>
+        </div>
+
+        <div style="border-radius:16px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.13);">
+                   <!-- EVENT 1: MAHA KUMBABISHEKAM -->
+        <div class="event-card">
+            <div class="event-card-header">
+                <h3>Sri Ananda Sai Punara Vardhana Jeernodhaarana<br>Ashta Bandana Maha Kumbabishekam</h3>
+                <div class="event-tamil">அருள்மிகு ஸ்ரீ ஆனந்தசாயி புணரா வர்த்தன ஜீர்ணோத்தாரண அஷ்ட பந்தன மஹா கும்பாபிஷேகம்</div>
+                <div class="event-date-badge"><i class="fas fa-calendar-alt"></i> 19 – 21 June 2026 &nbsp;|&nbsp; 3-Day Event</div>
+            </div>
+            <div class="event-card-body">
+                <div class="event-meta">
+                    <div class="event-meta-row"><i class="fas fa-calendar-check"></i><span><strong>Main Kumbabishekam:</strong> Sunday, 21 June 2026 — Aani 7th, Sapta Tithi, Pooram Nakshatram</span></div>
+                    <div class="event-meta-row"><i class="fas fa-clock"></i><span>Gopura Maha Kumbabishekam: <strong>9:45 AM – 10:30 AM</strong><br>Moolastana Maha Kumbabishekam: <strong>10:30 AM – 11:15 AM</strong></span></div>
+                    <div class="event-meta-row"><i class="fas fa-map-marker-alt"></i><span>Sri Ananda Sai Dhyana Mandapam, Poonthandalam, Chennai – 600069</span></div>
+                    <div class="event-meta-row"><i class="fas fa-utensils"></i><span>Annadanam at <strong>12:00 Noon</strong> — All are welcome 🙏</span></div>
+                </div>
+
+                <!-- 3-day schedule accordion -->
+                <button class="schedule-toggle" onclick="toggleSchedule(this)">
+                    <span><i class="fas fa-list-ul" style="margin-right:7px;"></i>View Full 3-Day Program Schedule</span>
+                    <i class="fas fa-chevron-down chev"></i>
+                </button>
+                <div class="schedule-body">
+                    <div class="schedule-day">
+                        <div class="schedule-day-title">📅 Day 1 — Friday, 19 June 2026 (Aani 5th)</div>
+                        <div class="schedule-row"><span class="s-time">8:00 AM</span><span class="s-event">Anukkni, Vineshwara Puja, Maha Sankalpam, Ganapathi Homam, Navagraha Homam, Lakshmi Homam, Dana Puja</span></div>
+                        <div class="schedule-row"><span class="s-time">10:00 AM</span><span class="s-event">Poornaahooti, Deepaarathanai</span></div>
+                        <div class="schedule-row"><span class="s-time">10:30 AM</span><span class="s-event">Prasada Viniyogam</span></div>
+                        <div class="schedule-row"><span class="s-time">5:00 PM</span><span class="s-event">Vineshwara Puja, Punyavachana, Vastu Shanti, Mantra Sankruhanam, Anguraarpanam, Raksha Bandhanam</span></div>
+                        <div class="schedule-row"><span class="s-time">6:30 PM</span><span class="s-event">Kalaakarshanam</span></div>
+                        <div class="schedule-row"><span class="s-time">7:00 PM</span><span class="s-event">Yaaga Salai Pravesham — First Kala Yaaga Puja begins</span></div>
+                        <div class="schedule-row"><span class="s-time">9:00 PM</span><span class="s-event">Dravyaahooti, Poornaahooti, Deepaarathanai, Prasada Viniyogam</span></div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="schedule-day-title">📅 Day 2 — Saturday, 20 June 2026 (Aani 6th)</div>
+                        <div class="schedule-row"><span class="s-time">8:00 AM</span><span class="s-event">Second Kala Yaaga Puja begins</span></div>
+                        <div class="schedule-row"><span class="s-time">10:00 AM</span><span class="s-event">Poornaahooti, Deepaarathanai</span></div>
+                        <div class="schedule-row"><span class="s-time">6:00 PM</span><span class="s-event">Third Kala Yaaga Puja begins</span></div>
+                        <div class="schedule-row"><span class="s-time">8:00 PM</span><span class="s-event">Dravyaahooti</span></div>
+                        <div class="schedule-row"><span class="s-time">8:30 PM</span><span class="s-event">Poornaahooti, Deepaarathanai</span></div>
+                        <div class="schedule-row"><span class="s-time">9:00 PM</span><span class="s-event">Prasada Viniyogam</span></div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="schedule-day-title">📅 Day 3 — Sunday, 21 June 2026 (Aani 7th) — Main Day</div>
+                        <div class="schedule-row"><span class="s-time">7:00 AM</span><span class="s-event">Fourth Kala Yaaga Puja, Pimba Shuddhi, Raksha Bandhanam, Tattvarchana, Sparsaahooti</span></div>
+                        <div class="schedule-row"><span class="s-time">9:00 AM</span><span class="s-event">Dravyaahooti, Poornaahooti</span></div>
+                        <div class="schedule-row"><span class="s-time">9:30 AM</span><span class="s-event">Deepaarathanai</span></div>
+                        <div class="schedule-row"><span class="s-time">9:45 – 10:30 AM</span><span class="s-event">🏛️ <strong>Gopura Maha Kumbabishekam</strong></span></div>
+                        <div class="schedule-row"><span class="s-time">10:30 – 11:15 AM</span><span class="s-event">🏛️ <strong>Moolastana Maha Kumbabishekam</strong></span></div>
+                        <div class="schedule-row"><span class="s-time">11:45 AM</span><span class="s-event">Vishesa Alankaram, Maha Deepaarathanai</span></div>
+                        <div class="schedule-row"><span class="s-time">12:00 Noon</span><span class="s-event">🍛 <strong>Annadanam — All are welcome!</strong></span></div>
+                    </div>
+                </div>
+
+                <div class="event-bank-box">
+                    <strong><i class="fas fa-hand-holding-heart" style="margin-right:6px;color:var(--saffron);"></i>Donations Welcome — Shirdi Sri Sai Chiranjeevi Foundation</strong>
+                    City Union Bank, Thirumudivakkam Branch<br>
+                    A/C No: <strong>510909010128380</strong> &nbsp;|&nbsp; IFS Code: <strong>CIUB0000400</strong>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+    <p style="text-align:center;margin-top:20px;font-size:0.8rem;color:#888;">
+        <i class="fas fa-info-circle" style="color:var(--saffron);margin-right:5px;"></i>
+        If the invitation does not display, please use the Download button above.
+    </p>
+</section>
+
 <!-- ABOUT -->
 <section id="about">
     <h2 class="section-title" data-key="nav-about">About The Temple</h2>
     <div class="about-grid">
         <div>
             <p data-key="about-p1" style="margin-bottom:14px;">Founded by <strong>N.V. Ramanan</strong>, the story began in 1997 when a palm reader revealed he would build a temple. In 1998, Sai Baba appeared in his dream saying <em>"I will come in a new form — construct a temple for me."</em></p>
-            <p data-key="about-p2" style="margin-bottom:18px;">Through divine grace, <strong>Mr. Leo Muthu</strong> donated 33 acres of land. Dubai-based devotee Mrs. Surya was guided in a dream to Poonthandalam, where she commissioned Asia's unique Sai pratima.</p>
+            <p data-key="about-p2" style="margin-bottom:18px;">Through divine grace, <strong>Mr. Leo Muthu</strong> donated 75 cents of land. Dubai-based devotee Mrs. Surya was guided in a dream to Poonthandalam, where she commissioned Asia's unique Sai pratima.</p>
             <div style="background:var(--saffron);color:white;padding:20px 24px;border-radius:15px;">
                 <h3 style="color:white;margin-bottom:8px;" data-key="unique-fact-title">✨ The 6.5ft Miracle</h3>
                 <p data-key="unique-fact-desc">Asia's only fibre glass Sai Baba statue by T.P.R. Ganesh — you can feel the nerves as in a real human being. Installed on Gokulashtami, 2006.</p>
@@ -311,12 +449,85 @@
 <!-- TIMINGS -->
 <section id="timings" style="background:#fcf1d8;">
     <h2 class="section-title" data-key="nav-timings">Daily Timings</h2>
-    <div class="timing-grid">
-        <div class="time-card"><i class="fas fa-door-open"></i><h3 data-key="t-darshan">Darshan</h3><p>5:00 AM – 10:00 PM</p></div>
-        <div class="time-card"><i class="fas fa-sun"></i><h3 data-key="t-kakad">Kakad Aarti</h3><p>5:00 AM</p></div>
-        <div class="time-card"><i class="fas fa-om"></i><h3 data-key="t-madhyan">Madhyana Aarti</h3><p>12:00 PM</p></div>
-        <div class="time-card"><i class="fas fa-cloud-sun"></i><h3 data-key="t-dhoop">Dhoop Aarti</h3><p>At Sunset</p></div>
-        <div class="time-card"><i class="fas fa-moon"></i><h3 data-key="t-shej">Shej Aarti</h3><p>10:00 PM</p></div>
+
+    <!-- Tab buttons -->
+    <div class="timings-tabs">
+        <button class="timing-tab active" onclick="switchTab('regular', this)">Mon – Wed &amp; Fri – Sun</button>
+        <button class="timing-tab" onclick="switchTab('thursday', this)">Thursday (Special)</button>
+    </div>
+
+    <!-- Regular days panel -->
+    <div class="timing-panel active" id="tab-regular">
+        <div class="timing-grid">
+            <div class="time-card">
+                <i class="fas fa-sun"></i>
+                <h3>Morning Aarti</h3>
+                <p>6:00 AM</p>
+            </div>
+            <div class="time-card">
+                <i class="fas fa-door-open"></i>
+                <h3>Darshan</h3>
+                <p>6:00 AM – 11:00 AM</p>
+            </div>
+            <div class="time-card">
+                <i class="fas fa-om"></i>
+                <h3>Noon Aarti</h3>
+                <p>11:00 AM</p>
+            </div>
+            <div class="time-card">
+                <i class="fas fa-door-open"></i>
+                <h3>Evening Darshan</h3>
+                <p>4:00 PM – 7:00 PM</p>
+            </div>
+            <div class="time-card">
+                <i class="fas fa-cloud-sun"></i>
+                <h3>Dhoop Aarti</h3>
+                <p>6:00 PM</p>
+            </div>
+            <div class="time-card">
+                <i class="fas fa-moon"></i>
+                <h3>Night Aarti</h3>
+                <p>7:00 PM</p>
+            </div>
+        </div>
+        <p class="timing-note">Timings apply on Monday, Tuesday, Wednesday, Friday, Saturday &amp; Sunday</p>
+    </div>
+
+    <!-- Thursday panel -->
+    <div class="timing-panel" id="tab-thursday">
+        <div class="timing-grid">
+            <div class="time-card">
+                <i class="fas fa-sun"></i>
+                <h3>Morning Aarti</h3>
+                <p>5:00 AM</p>
+            </div>
+            <div class="time-card">
+                <i class="fas fa-door-open"></i>
+                <h3>Darshan</h3>
+                <p>5:00 AM – 2:00 PM</p>
+            </div>
+            <div class="time-card">
+                <i class="fas fa-om"></i>
+                <h3>Noon Aarti</h3>
+                <p>12:00 Noon</p>
+            </div>
+            <div class="time-card">
+                <i class="fas fa-utensils"></i>
+                <h3>Annadanam</h3>
+                <p>1:00 PM</p>
+            </div>
+            <div class="time-card">
+                <i class="fas fa-door-open"></i>
+                <h3>Evening Darshan</h3>
+                <p>4:00 PM – 8:00 PM</p>
+            </div>
+            <div class="time-card">
+                <i class="fas fa-cloud-sun"></i>
+                <h3>Dhoop Aarti</h3>
+                <p>6:00 PM</p>
+            </div>
+        </div>
+        <p class="timing-note">Thursday is a special day — extended morning hours &amp; Annadanam seva 🙏</p>
     </div>
 </section>
 
@@ -339,8 +550,8 @@
     <div class="services-grid">
         <div class="service-card"><div class="service-icon"><i class="fas fa-utensils"></i></div><h3 data-key="s1-title">Annadhanam</h3><p data-key="s1-desc">Free food distribution for all devotees on every festival day as Sai Baba's divine blessing.</p><span class="service-badge">Festival Days</span></div>
         <div class="service-card"><div class="service-icon"><i class="fas fa-praying-hands"></i></div><h3 data-key="s2-title">Daily Prasad</h3><p data-key="s2-desc">Sacred prasad shared among devotees after every aarti as Baba's grace and blessings.</p><span class="service-badge">Every Day</span></div>
-        <div class="service-card"><div class="service-icon"><i class="fas fa-home"></i></div><h3 data-key="s3-title">Dwarakamai Old Age Home</h3><p data-key="s3-desc">Planned home for the elderly on 35 cents of donated land — serving in Baba's name.</p><span class="service-badge">Coming Soon</span></div>
         <div class="service-card"><div class="service-icon"><i class="fas fa-hands-helping"></i></div><h3 data-key="s4-title">Social Welfare</h3><p data-key="s4-desc">Community outreach by Shirdi Shri Sai Shiranjeevi Foundation for the needy.</p><span class="service-badge">Active</span></div>
+        <div class="service-card"><div class="service-icon"><i class="fas fa-spa"></i></div><h3 data-key="s5-title">Meditation Hall</h3><p data-key="s5-desc">A serene, dedicated hall within the Mandapam for devotees to sit in silent meditation and experience Baba's divine presence.</p><span class="service-badge">Open to All</span></div>
     </div>
     <div class="services-quote">"Why do you fear? I am always with you. Whenever you call me with love, I shall be there." — Sai Baba 🙏</div>
 </section>
@@ -351,12 +562,10 @@
     <div class="gallery-grid" id="galleryGrid"></div>
 </section>
 
-<!-- BOOK A POOJA — CLICK TO EXPAND ACCORDION -->
+<!-- BOOK A POOJA -->
 <section id="appointment" style="background:#fcf1d8;">
     <h2 class="section-title" data-key="nav-appt">Book a Pooja</h2>
     <div class="appt-card">
-
-        <!-- Clickable header -->
         <div class="appt-trigger" id="apptTrigger" onclick="toggleAppt()">
             <div class="appt-trigger-left">
                 <div class="appt-trigger-badge">🪔</div>
@@ -367,13 +576,9 @@
             </div>
             <i class="fas fa-chevron-down appt-chevron"></i>
         </div>
-
-        <!-- Expandable body -->
         <div class="appt-body" id="apptBody">
             <div class="appt-body-inner">
                 <p class="appt-sub">Fill the form and submit. A confirmation popup will appear and your details will be emailed to the temple. 🙏</p>
-
-              
                 <form id="appointmentForm" onsubmit="submitAppointment(event)">
                     <div class="form-grid">
                         <div class="form-group">
@@ -420,20 +625,21 @@
                             <label><i class="fas fa-clock"></i>Preferred Time *</label>
                             <select class="form-control" name="Preferred Time" required>
                                 <option value="">— Select Time Slot —</option>
+                                <option>6:00 AM</option><option>6:30 AM</option>
                                 <option>7:00 AM</option><option>7:30 AM</option>
                                 <option>8:00 AM</option><option>8:30 AM</option>
                                 <option>9:00 AM</option><option>9:30 AM</option>
                                 <option>10:00 AM</option><option>10:30 AM</option>
-                                <option>11:00 AM</option><option>11:30 AM</option>
-                                <option>12:00 PM (Madhyana Aarti)</option>
-                                <option>12:30 PM</option><option>1:00 PM</option><option>1:30 PM</option>
+                                <option>11:00 AM (Noon Aarti)</option>
+                                <option>12:00 PM</option><option>12:30 PM</option>
+                                <option>1:00 PM</option><option>1:30 PM</option>
                                 <option>2:00 PM</option><option>2:30 PM</option>
                                 <option>3:00 PM</option><option>3:30 PM</option>
                                 <option>4:00 PM</option><option>4:30 PM</option>
                                 <option>5:00 PM</option><option>5:30 PM</option>
-                                <option>6:00 PM</option><option>6:30 PM</option>
-                                <option>7:00 PM</option><option>7:30 PM</option>
-                                <option>8:00 PM</option>
+                                <option>6:00 PM (Dhoop Aarti)</option>
+                                <option>6:30 PM</option>
+                                <option>7:00 PM (Night Aarti)</option>
                             </select>
                         </div>
                         <div class="form-group full">
@@ -464,7 +670,6 @@
             <div class="reach-info-box">
                 <p><i class="fas fa-landmark"></i><strong>Landmark:</strong> Behind Sri Sai Ram Engineering College, Poonthandalam</p>
                 <p><i class="fas fa-bus"></i>Nearest bus stop: <strong>Kundrathur Bus Stand</strong> — auto-rickshaw 30–45 min</p>
-                <p><i class="fas fa-clock"></i>Open every day: <strong>5:00 AM – 10:00 PM</strong></p>
             </div>
             <div class="map-actions">
                 <a href="https://www.google.com/maps/dir/?api=1&destination=12.9630288,80.0530621&travelmode=driving" class="map-btn map-btn-google" target="_blank" rel="noopener"><i class="fab fa-google"></i> Google Maps</a>
@@ -480,7 +685,7 @@
     </div>
 </section>
 
-<!-- CONTACT — individual Call + WA per number -->
+<!-- CONTACT -->
 <section id="contact" style="background:#fcf1d8;">
     <h2 class="section-title" data-key="nav-contact">Contact Us</h2>
     <div class="contact-box">
@@ -549,16 +754,24 @@
 </footer>
 
 <script>
-// ══════════════════════════════════════════════════════════════
-//  ✅ FORMSPREE SETUP — REPLACE THESE 2 IDs ONLY
-//  Steps (free, 2 minutes):
-//  1. Go to https://formspree.io → Sign up
-//  2. Click "New Form" → name it "Pooja Appointment" → copy the ID (e.g. xyzabcde)
-//  3. Click "New Form" again → name it "Feedback" → copy that ID too
-//  4. Paste both IDs below — done! Emails land in srianandasaidhyanam@gmail.com
-// ══════════════════════════════════════════════════════════════
-const APPT_FORM_ID = 'mreareyz';   // ← replace e.g. 'xyzabcde'
-const FB_FORM_ID   = 'xbdaqdzj';     // ← replace e.g. 'abcd1234'
+const APPT_FORM_ID = 'mreareyz';
+const FB_FORM_ID   = 'xbdaqdzj';
+
+// ── SCHEDULE TOGGLE ───────────────────────────────────────────
+function toggleSchedule(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+}
+
+// ── TIMING TABS ──────────────────────────────────────────────
+function switchTab(name, btn) {
+    document.querySelectorAll('.timing-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.timing-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+}
 
 // ── ACCORDION ────────────────────────────────────────────────
 function toggleAppt() {
@@ -605,11 +818,9 @@ async function submitAppointment(e) {
             msg:`Thank you <strong>${name}</strong>! Your appointment request has been sent to the temple. We will confirm your slot shortly.`,
             details });
         form.reset();
-        // Auto-collapse accordion after success
         document.getElementById('apptBody').classList.remove('open');
         document.getElementById('apptTrigger').classList.remove('open');
     } catch {
-        // Show popup even if Formspree ID not configured yet
         showModal({ icon:'🙏', title:'Request Noted!',
             msg:`<strong>${name}</strong>, your details have been saved. Please add your Formspree ID to activate email delivery. Jai Sai Ram!`,
             details });
@@ -689,27 +900,22 @@ document.querySelectorAll('#starRating i').forEach(star => {
         setRating(parseInt(document.getElementById('ratingValue').value)));
 });
 
-// ── GALLERY ──────────────────────────────────────────────────
+// ── GALLERY (no captions) ─────────────────────────────────────
 const galleryImages = [
-    { file:"images/photo1.jpg",  caption:"Temple Entrance" },
-    { file:"images/photo2.jpg",  caption:"Sai Baba Pratima" },
-    { file:"images/photo3.jpg",  caption:"Morning Aarti" },
-    { file:"images/photo4.jpg",  caption:"Temple Hall" },
-    { file:"images/photo5.jpg",  caption:"Festival Celebration" },
-    { file:"images/photo6.jpg",  caption:"Devotees Gathering" },
-    { file:"images/photo7.jpg",  caption:"Temple Grounds" },
-    { file:"images/photo8.jpg",  caption:"Annadhanam Seva" },
-    { file:"images/photo9.jpg",  caption:"Guru Purnima" },
-    { file:"images/photo10.jpg", caption:"Sacred Moments" },
-    { file:"images/photo11.jpg", caption:"Sai Baba Darshan" },
-    { file:"images/photo12.jpg", caption:"Temple Decoration" },
+    "images/photo1.jpg","images/photo2.jpg","images/photo3.jpg","images/photo4.jpg",
+    "images/photo5.jpg","images/photo6.jpg","images/photo7.jpg","images/photo8.jpg",
+    "images/photo9.jpg","images/photo10.jpg","images/photo11.jpg","images/photo12.jpg",
 ];
 const grid = document.getElementById("galleryGrid");
-galleryImages.forEach(item => {
+galleryImages.forEach(file => {
     const div = document.createElement("div");
     div.className = "gallery-item";
-    div.innerHTML = `<img src="${item.file}" alt="${item.caption}" onerror="this.parentElement.innerHTML='<div class=\\'gallery-placeholder\\'><i class=\\'fas fa-image\\'></i><span style=\\'font-weight:600;\\'>${item.caption}</span></div>'"><div class="img-label">${item.caption}</div>`;
-    div.onclick = () => { document.getElementById("lb-img").src=item.file; document.getElementById("lightbox").style.display="flex"; document.body.style.overflow="hidden"; };
+    div.innerHTML = `<img src="${file}" alt="Temple Photo" onerror="this.parentElement.innerHTML='<div class=\\'gallery-placeholder\\'><i class=\\'fas fa-image\\'></i></div>'">`;
+    div.onclick = () => {
+        document.getElementById("lb-img").src = file;
+        document.getElementById("lightbox").style.display = "flex";
+        document.body.style.overflow = "hidden";
+    };
     grid.appendChild(div);
 });
 function closeLightbox() { document.getElementById("lightbox").style.display="none"; document.body.style.overflow=""; }
@@ -727,10 +933,9 @@ const translations = {
         "temple-name":"Sri Ananda Sai Dhyana Mandapam","temple-name-nav":"Sri Ananda Sai",
         "temple-loc":"Poonthandalam, Chennai – 600069","tagline":"Sabka Malik Ek",
         "about-p1":"Founded by N.V. Ramanan, the story began in 1997 when a palm reader revealed he would build a temple. In 1998, Sai Baba appeared in his dream: \"I will come in a new form — construct a temple for me.\"",
-        "about-p2":"Through divine grace, Mr. Leo Muthu donated 33 acres of land. Dubai-based devotee Mrs. Surya was guided in a dream to Poonthandalam to commission Asia's unique Sai pratima.",
+        "about-p2":"Through divine grace, Mr. Leo Muthu donated 75 cents of land. Dubai-based devotee Mrs. Surya was guided in a dream to Poonthandalam to commission Asia's unique Sai pratima.",
         "unique-fact-title":"✨ The 6.5ft Miracle",
         "unique-fact-desc":"Asia's only fibre glass Sai Baba statue by T.P.R. Ganesh — you can feel the nerves as in a real human being. Installed on Gokulashtami, 2006.",
-        "t-darshan":"Darshan","t-kakad":"Kakad Aarti","t-madhyan":"Madhyana Aarti","t-dhoop":"Dhoop Aarti","t-shej":"Shej Aarti",
         "f1-title":"Sai Punyathithi","f1-desc":"Annual commemoration of Sai Baba's Mahasamadhi with prayers and bhajans.",
         "f2-title":"Guru Purnima","f2-desc":"Celebrating the divine Guru with devotional gatherings and Annadhanam.",
         "f3-title":"Sri Rama Navami","f3-desc":"Birth anniversary of Lord Rama — celebrated as a major festival.",
@@ -739,8 +944,8 @@ const translations = {
         "f6-title":"Pradhishta Day","f6-desc":"Day Sai appeared to the priest in Poonthandalam — January 26th.",
         "s1-title":"Annadhanam","s1-desc":"Free food for all devotees on festival days as Sai's divine blessing.",
         "s2-title":"Daily Prasad","s2-desc":"Sacred prasad shared after every aarti as Baba's grace.",
-        "s3-title":"Dwarakamai Old Age Home","s3-desc":"Planned home for elderly on 35 cents of donated land.",
         "s4-title":"Social Welfare","s4-desc":"Community activities by Shirdi Shri Sai Shiranjeevi Foundation.",
+        "s5-title":"Meditation Hall","s5-desc":"A serene hall for devotees to sit in silent meditation and experience Baba's divine presence.",
         "r-tambaram":"From Tambaram (via Kishkinta)","r-pallavaram":"From Pallavaram (via Thiruneermalai)",
         "r-kundrathur":"From Kundrathur (via Nandambakkam)","r-sriperambadur":"From Sriperambadur",
         "address":"No. 4 & 11, Saibaba Nagar, Poonthandalam, Nandampakkam Post, Chennai – 600069",
@@ -753,9 +958,8 @@ const translations = {
         "temple-name":"ஸ்ரீ ஆனந்த சாய் தியான மண்டபம்","temple-name-nav":"ஸ்ரீ ஆனந்த சாய்",
         "temple-loc":"பூந்தண்டலம், சென்னை – 600069","tagline":"ஸப்கா மாலிக் ஏக்",
         "about-p1":"என்.வி. ரமணன் அவர்களால் நிறுவப்பட்டது. 1997ல் சோதிடர் கோயில் கட்டுவார் என்றார். 1998ல் சாய் பாபா கனவில் வந்தார்.",
-        "about-p2":"லியோ முத்து அவர்கள் 33 ஏக்கர் நிலம் தானம் செய்தார். சூர்யா அம்மா கனவில் வழிகாட்டப்பட்டு பிரதிமை உருவாக்கினார்.",
+        "about-p2":"லியோ முத்து அவர்கள் 75 சென்ட் நிலம் தானம் செய்தார். சூர்யா அம்மா கனவில் வழிகாட்டப்பட்டு பிரதிமை உருவாக்கினார்.",
         "unique-fact-title":"✨ 6.5 அடி அதிசயம்","unique-fact-desc":"ஆசியாவிலேயே ஒரே ஃபைபர் கிளாஸ் சாய் சிலை. கோகுலாஷ்டமி 2006 அன்று ஸ்தாபிக்கப்பட்டது.",
-        "t-darshan":"தரிசனம்","t-kakad":"காகட் ஆர்த்தி","t-madhyan":"மத்தியான ஆர்த்தி","t-dhoop":"தூப ஆர்த்தி","t-shej":"ஷேஜ் ஆர்த்தி",
         "f1-title":"சாய் புண்ணியதிதி","f1-desc":"சாய் பாபாவின் மகாசமாதி தினத்தில் சிறப்பு பூஜை.",
         "f2-title":"குரு பூர்ணிமா","f2-desc":"தெய்வீக குரு சாய் பாபாவை கொண்டாடும் விழா.",
         "f3-title":"ஸ்ரீ ராம நவமி","f3-desc":"இராமர் பிறந்தநாளை முக்கிய விழாவாக கொண்டாடுதல்.",
@@ -764,8 +968,8 @@ const translations = {
         "f6-title":"பிரதிஷ்டா தினம்","f6-desc":"ஜனவரி 26 — சாய் தோன்றிய நாள்.",
         "s1-title":"அன்னதானம்","s1-desc":"திருவிழா நாட்களில் அனைத்து பக்தர்களுக்கும் இலவச உணவு.",
         "s2-title":"தினசரி பிரசாதம்","s2-desc":"ஒவ்வொரு ஆர்த்திக்கும் பிறகு பிரசாதம் வழங்கப்படுகிறது.",
-        "s3-title":"துவாரகாமாய் முதியோர் இல்லம்","s3-desc":"35 சென்ட் நிலத்தில் திட்டமிடப்பட்ட முதியோர் இல்லம்.",
         "s4-title":"சமூக நலன்","s4-desc":"சாய் சிரஞ்சீவி அறக்கட்டளையின் சமூக சேவைகள்.",
+        "s5-title":"தியான மண்டபம்","s5-desc":"பக்தர்கள் அமைதியாக தியானிக்க மற்றும் பாபாவின் தெய்வீக அருளை உணர ஒரு அமைதியான தியான அரங்கு.",
         "r-tambaram":"தாம்பரத்திலிருந்து","r-pallavaram":"பல்லாவரத்திலிருந்து",
         "r-kundrathur":"குன்றத்தூரிலிருந்து","r-sriperambadur":"ஸ்ரீபெரும்புதூரிலிருந்து",
         "address":"எண். 4 & 11, சாய்பாபா நகர், பூந்தண்டலம், நந்தம்பாக்கம், சென்னை – 600069",
