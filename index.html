@@ -285,7 +285,7 @@
         <ul id="nav-links">
             <li><a href="#home"        data-key="nav-home">Home</a></li>
             <li><a href="#about"       data-key="nav-about">History</a></li>
-            <li><a href="#events"      style="color:var(--saffron);">🪔 Events</a></li>
+            <li><a href="#events"      data-key="nav-events" style="color:var(--saffron);">🪔 Events</a></li>
             <li><a href="#timings"     data-key="nav-timings">Timings</a></li>
             <li><a href="#festivals"   data-key="nav-festivals">Festivals</a></li>
             <li><a href="#services"    data-key="nav-services">Services</a></li>
@@ -307,7 +307,7 @@
 
 <!-- UPCOMING EVENTS -->
 <section id="events" style="background:#fcf1d8;">
-    <h2 class="section-title">Upcoming Event</h2>
+    <h2 class="section-title" data-key="section-events">Upcoming Event</h2>
     <div class="pdf-wrap">
         <div class="pdf-header">
             🪔 அருள்மிகு ஸ்ரீ ஆனந்தசாயி புணரா வர்த்தன ஜீர்ணோத்தாரண அஷ்ட பந்தன மஹா கும்பாபிஷேகம்<br>
@@ -409,7 +409,7 @@
 <section id="services" style="background:#fcf1d8;">
     <h2 class="section-title" data-key="nav-services">Temple Services & Seva</h2>
     <div class="services-grid">
-        <div class="service-card"><div class="service-icon"><i class="fas fa-utensils"></i></div><h3 data-key="s1-title">Annadhanam</h3><p data-key="s1-desc">Free food distribution for all devotees on every festival day and Thursdays as Sai Baba's divine blessing.</p><span class="service-badge">Festival Days and Thursdays</span></div>
+        <div class="service-card"><div class="service-icon"><i class="fas fa-utensils"></i></div><h3 data-key="s1-title">Annadhanam</h3><p data-key="s1-desc">Free food distribution for all devotees on every festival day as Sai Baba's divine blessing.</p><span class="service-badge">Festival Days and Thursdays</span></div>
         <div class="service-card"><div class="service-icon"><i class="fas fa-praying-hands"></i></div><h3 data-key="s2-title">Daily Prasad</h3><p data-key="s2-desc">Sacred prasad shared among devotees after every aarti as Baba's grace and blessings.</p><span class="service-badge">Every Day</span></div>
         <div class="service-card"><div class="service-icon"><i class="fas fa-hands-helping"></i></div><h3 data-key="s4-title">Social Welfare</h3><p data-key="s4-desc">Community outreach by Shirdi Shri Sai Chiranjeevi Foundation for the needy.</p><span class="service-badge">Active</span></div>
         <div class="service-card"><div class="service-icon"><i class="fas fa-spa"></i></div><h3 data-key="s5-title">Meditation Hall</h3><p data-key="s5-desc">A serene, dedicated hall within the Mandapam for devotees to sit in silent meditation and experience Baba's divine presence.</p><span class="service-badge">Open to All</span></div>
@@ -569,7 +569,7 @@
 
 <footer>
     <h3 data-key="footer-sai">Jai Sai Ram 🙏</h3>
-    <p>&copy;  Sri Ananda Sai Dhyana Mandapam, Poonthandalam, Chennai</p>
+    <p>&copy; 2025 Sri Ananda Sai Dhyana Mandapam, Poonthandalam, Chennai</p>
     <p style="margin-top:6px;font-size:0.75rem;opacity:.5;">Shirdi Shri Sai Chiranjeevi Foundation</p>
 </footer>
 
@@ -724,7 +724,9 @@ const translations = {
     en: {
         "nav-home":"Home","nav-about":"History","nav-timings":"Timings","nav-festivals":"Festivals",
         "nav-services":"Services","nav-gallery":"Gallery","nav-appt":"Book Pooja",
+        "nav-events":"🪔 Events",
         "nav-reach":"Reach Us","nav-contact":"Contact",
+        "section-events":"Upcoming Event",
         "temple-name":"Sri Ananda Sai Dhyana Mandapam","temple-name-nav":"Sri Ananda Sai",
         "temple-loc":"Poonthandalam, Chennai – 600069","tagline":"Sabka Malik Ek",
         "about-p1":"Founded by N.V. Ramanan, the story began in 1997 when a palm reader revealed he would build a temple. In 1998, Sai Baba appeared in his dream: \"I will come in a new form — construct a temple for me.\"",
@@ -737,7 +739,7 @@ const translations = {
         "f4-title":"Temple Anniversary","f4-desc":"Founding anniversary with grand celebrations every April.",
         "f5-title":"Chitra Purnima","f5-desc":"Most auspicious day for Sai and Swarnakarshana Bhairavar.",
         "f6-title":"Pradhishta Day","f6-desc":"Day Sai appeared to the priest in Poonthandalam — January 26th.",
-        "s1-title":"Annadhanam","s1-desc":"Free food for all devotees on festival days as Sai's divine blessing.",
+        "s1-title":"Annadhanam","s1-desc":"Free food for all devotees on festival days and Thursdays as Sai's divine blessing.",
         "s2-title":"Daily Prasad","s2-desc":"Sacred prasad shared after every aarti as Baba's grace.",
         "s4-title":"Social Welfare","s4-desc":"Community activities by Shirdi Shri Sai Chiranjeevi Foundation.",
         "s5-title":"Meditation Hall","s5-desc":"A serene hall for devotees to sit in silent meditation and experience Baba's divine presence.",
@@ -749,7 +751,9 @@ const translations = {
     ta: {
         "nav-home":"முகப்பு","nav-about":"வரலாறு","nav-timings":"நேரம்","nav-festivals":"திருவிழாக்கள்",
         "nav-services":"சேவைகள்","nav-gallery":"படங்கள்","nav-appt":"பூஜை பதிவு",
+        "nav-events":"🪔 நிகழ்வுகள்",
         "nav-reach":"வழித்தடம்","nav-contact":"தொடர்பு",
+        "section-events":"வரவிருக்கும் நிகழ்வு",
         "temple-name":"ஸ்ரீ ஆனந்த சாய் தியான மண்டபம்","temple-name-nav":"ஸ்ரீ ஆனந்த சாய்",
         "temple-loc":"பூந்தண்டலம், சென்னை – 600069","tagline":"ஸப்கா மாலிக் ஏக்",
         "about-p1":"என்.வி. ரமணன் அவர்களால் நிறுவப்பட்டது. 1997ல் சோதிடர் கோயில் கட்டுவார் என்றார். 1998ல் சாய் பாபா கனவில் வந்தார்.",
