@@ -223,11 +223,8 @@
 
         @media (max-width:992px) {
             .about-grid, .reach-grid { grid-template-columns:1fr; }
-            .header-main { justify-content: space-between; }
-            .mobile-menu-btn { order: 2; margin-left: auto; }
-            .logo-text { order: 1; }
-            nav { order: 3; width: 100%; }
             nav ul { display:none; }
+            .mobile-menu-btn { display:block; }
             .nav-active { display:flex !important; flex-direction:column; position:absolute; top:65px; left:0; width:100%; background:var(--cream); padding:20px; box-shadow:0 6px 12px rgba(0,0,0,0.1); z-index:999; }
             .lang-switch { top:auto; bottom:110px; right:15px; }
             .hero h1 { font-size:1.9rem; }
@@ -286,7 +283,7 @@
 <!-- HEADER -->
 <header>
     <div class="header-main">
-        <div class="logo-text" data-key="temple-name-nav">Sri Ananda Sai Temple</div>
+        <div class="logo-text" data-key="temple-name-nav">Sri Ananda Sai</div>
         <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
         <nav>
             <ul id="nav-links">
@@ -742,7 +739,7 @@ const translations = {
         "nav-home":"Home","nav-about":"History","nav-timings":"Timings","nav-festivals":"Festivals",
         "nav-services":"Services","nav-gallery":"Gallery","nav-appt":"Book Pooja",
         "nav-reach":"Reach Us","nav-contact":"Contact",
-        "temple-name":"Sri Ananda Sai Dhyana Mandapam","temple-name-nav":"Sri Ananda Sai Temple",
+        "temple-name":"Sri Ananda Sai Dhyana Mandapam","temple-name-nav":"Sri Ananda Sai",
         "temple-loc":"Poonthandalam, Chennai – 600069","tagline":"Sabka Malik Ek",
         "about-p1":"Founded by N.V. Ramanan, the story began in 1997 when a palm reader revealed he would build a temple. In 1998, Sai Baba appeared in his dream: \"I will come in a new form — construct a temple for me.\"",
         "about-p2":"Through divine grace, Mr. Leo Muthu donated 75 cents of land. Dubai-based devotee Mrs. Surya was guided in a dream to Poonthandalam to commission Asia's unique Sai pratima.",
@@ -768,7 +765,7 @@ const translations = {
         "nav-home":"முகப்பு","nav-about":"வரலாறு","nav-timings":"நேரம்","nav-festivals":"திருவிழாக்கள்",
         "nav-services":"சேவைகள்","nav-gallery":"படங்கள்","nav-appt":"பூஜை பதிவு",
         "nav-reach":"வழித்தடம்","nav-contact":"தொடர்பு",
-        "temple-name":"ஸ்ரீ ஆனந்த சாய் தியான மண்டபம்","temple-name-nav":"ஸ்ரீ ஆனந்த சாய் கோயில்",
+        "temple-name":"ஸ்ரீ ஆனந்த சாய் தியான மண்டபம்","temple-name-nav":"ஸ்ரீ ஆனந்த சாய்",
         "temple-loc":"பூந்தண்டலம், சென்னை – 600069","tagline":"ஸப்கா மாலிக் ஏக்",
         "about-p1":"என்.வி. ரமணன் அவர்களால் நிறுவப்பட்டது. 1997ல் சோதிடர் கோயில் கட்டுவார் என்றார். 1998ல் சாய் பாபா கனவில் வந்தார்.",
         "about-p2":"லியோ முத்து அவர்கள் 75 சென்ட் நிலம் தானம் செய்தார். சூர்யா அம்மா கனவில் வழிகாட்டப்பட்டு பிரதிமை உருவாக்கினார்.",
