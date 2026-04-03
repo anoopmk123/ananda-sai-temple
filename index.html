@@ -31,14 +31,17 @@
         .petals-container { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
         .petal { position:absolute; background:#ffb7c5; border-radius:150% 0 150% 0; width:12px; height:12px; opacity:.7; animation:petalFall 10s linear infinite; }
 
-        header { background:rgba(255,248,231,0.97); padding:1rem 4%; position:fixed; width:100%; top:0; z-index:1000; box-shadow:0 2px 12px rgba(0,0,0,0.1); display:flex; justify-content:space-between; align-items:center; }
+        header { background:rgba(255,248,231,0.97); padding:1rem 4%; position:fixed; width:100%; top:0; z-index:1000; box-shadow:0 2px 12px rgba(0,0,0,0.1); display:flex; flex-direction:column; }
+        .header-main { display:flex; justify-content:space-between; align-items:center; width:100%; }
+        .header-marquee { background:linear-gradient(90deg,var(--saffron),var(--deep-orange),var(--saffron)); color:white; padding:8px 0; margin:0 -4%; overflow:hidden; white-space:nowrap; }
+        .header-marquee-content { display:inline-block; animation:marqueeText 25s linear infinite; font-size:0.85rem; font-weight:600; letter-spacing:0.5px; }
         .logo-text { font-size:1rem; font-weight:700; color:var(--deep-orange); text-transform:uppercase; font-family:'Cinzel'; }
         nav ul { display:flex; list-style:none; gap:6px; flex-wrap:wrap; }
         nav a { text-decoration:none; color:var(--dark-text); font-weight:700; font-size:0.72rem; text-transform:uppercase; transition:var(--transition); padding:5px 8px; border-radius:5px; }
         nav a:hover { color:var(--saffron); background:rgba(255,107,53,0.08); }
         .mobile-menu-btn { display:none; font-size:1.5rem; cursor:pointer; color:var(--deep-orange); }
 
-        .hero { min-height:90vh; background:linear-gradient(rgba(0,0,0,0.58),rgba(0,0,0,0.58)), url('images/banner.jpg') center/cover no-repeat; background-color:#7B3F00; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:110px 20px 60px; color:var(--white); }
+        .hero { min-height:90vh; background:linear-gradient(rgba(0,0,0,0.58),rgba(0,0,0,0.58)), url('images/banner.jpg') center/cover no-repeat; background-color:#7B3F00; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:140px 20px 60px; color:var(--white); }
         .om-symbol { font-size:6rem; color:var(--gold); animation:glow 3s ease-in-out infinite; margin-bottom:20px; -webkit-text-fill-color:var(--gold); line-height:1; }
         .hero h1 { font-size:2.8rem; color:var(--gold); text-shadow:2px 2px 10px rgba(0,0,0,0.5); margin-bottom:8px; }
         .hero-sub { font-size:1rem; color:rgba(255,255,255,0.8); margin-bottom:8px; }
@@ -279,22 +282,29 @@
 
 <!-- HEADER -->
 <header>
-    <div class="logo-text" data-key="temple-name-nav">Sri Ananda Sai</div>
-    <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
-    <nav>
-        <ul id="nav-links">
-            <li><a href="#home"        data-key="nav-home">Home</a></li>
-            <li><a href="#about"       data-key="nav-about">History</a></li>
-            <li><a href="#events"      style="color:var(--saffron);">🪔 Events</a></li>
-            <li><a href="#timings"     data-key="nav-timings">Timings</a></li>
-            <li><a href="#festivals"   data-key="nav-festivals">Festivals</a></li>
-            <li><a href="#services"    data-key="nav-services">Services</a></li>
-            <li><a href="#gallery"     data-key="nav-gallery">Gallery</a></li>
-            <li><a href="#appointment" data-key="nav-appt">Book Pooja</a></li>
-            <li><a href="#reach"       data-key="nav-reach">Reach Us</a></li>
-            <li><a href="#contact"     data-key="nav-contact">Contact</a></li>
-        </ul>
-    </nav>
+    <div class="header-main">
+        <div class="logo-text" data-key="temple-name-nav">Sri Ananda Sai</div>
+        <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <nav>
+            <ul id="nav-links">
+                <li><a href="#home"        data-key="nav-home">Home</a></li>
+                <li><a href="#about"       data-key="nav-about">History</a></li>
+                <li><a href="#events"      style="color:var(--saffron);">🪔 Events</a></li>
+                <li><a href="#timings"     data-key="nav-timings">Timings</a></li>
+                <li><a href="#festivals"   data-key="nav-festivals">Festivals</a></li>
+                <li><a href="#services"    data-key="nav-services">Services</a></li>
+                <li><a href="#gallery"     data-key="nav-gallery">Gallery</a></li>
+                <li><a href="#appointment" data-key="nav-appt">Book Pooja</a></li>
+                <li><a href="#reach"       data-key="nav-reach">Reach Us</a></li>
+                <li><a href="#contact"     data-key="nav-contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="header-marquee">
+        <div class="header-marquee-content" data-key="header-marquee">
+            🪔 UPCOMING EVENT: Sri Ananda Sai Punara Vardhana Jeernodhaarana Ashta Bandana Maha Kumbabishekam — 19, 20 & 21 June 2026 | Sri Ananda Sai Dhyana Mandapam, Poonthandalam | All Welcome — Annadanam at 12 Noon on 21 June 2026 | Contact: 9840219388 / 9789058088 🙏
+        </div>
+    </div>
 </header>
 
 <!-- HERO -->
@@ -725,6 +735,7 @@ document.addEventListener("keydown", e => { if(e.key==="Escape") closeLightbox()
 
 const translations = {
     en: {
+        "header-marquee":"🪔 UPCOMING EVENT: Sri Ananda Sai Punara Vardhana Jeernodhaarana Ashta Bandana Maha Kumbabishekam — 19, 20 & 21 June 2026 | Sri Ananda Sai Dhyana Mandapam, Poonthandalam | All Welcome — Annadanam at 12 Noon on 21 June 2026 | Contact: 9840219388 / 9789058088 🙏",
         "nav-home":"Home","nav-about":"History","nav-timings":"Timings","nav-festivals":"Festivals",
         "nav-services":"Services","nav-gallery":"Gallery","nav-appt":"Book Pooja",
         "nav-reach":"Reach Us","nav-contact":"Contact",
@@ -750,6 +761,7 @@ const translations = {
         "footer-sai":"Jai Sai Ram 🙏"
     },
     ta: {
+        "header-marquee":"🪔 வரவிருக்கும் நிகழ்ச்சி: ஸ்ரீ ஆனந்த சாய் புனரா வர்த்தன ஜீர்ணோத்தாரண அஷ்ட பந்தன மஹா கும்பாபிஷேகம் — 19, 20 & 21 ஜூன் 2026 | ஸ்ரீ ஆனந்த சாய் தியான மண்டபம், பூந்தண்டலம் | அனைவரும் வரவேற்கப்படுகிறார்கள் — 21 ஜூன் 2026 அன்று மதியம் 12 மணிக்கு அன்னதானம் | தொடர்பு: 9840219388 / 9789058088 🙏",
         "nav-home":"முகப்பு","nav-about":"வரலாறு","nav-timings":"நேரம்","nav-festivals":"திருவிழாக்கள்",
         "nav-services":"சேவைகள்","nav-gallery":"படங்கள்","nav-appt":"பூஜை பதிவு",
         "nav-reach":"வழித்தடம்","nav-contact":"தொடர்பு",
